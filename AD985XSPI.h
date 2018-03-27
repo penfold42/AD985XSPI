@@ -25,7 +25,7 @@
  * RESET   -> any pin except 10 and 12 UNO/NANO, 50 and 53 MEGA
  *
  * Functions :
- * DDS.begin(W_CLK pin, FQ_UD pin, RESET pin); initialize the output pins and master reset AD985x
+ * DDS.begin(W_CLK_pin, FQ_UD_pin, RESET_pin); initialize the output pins and master reset AD985x
  * DDS.calibrate(trimFreq); compensation of crystal oscillator frequency
  * DDS.setfreq(frequency); frequency in Hz
  * DDS.down(); power down mode reducing the dissipated power from 380mW to 30mW @5V
@@ -35,3 +35,39 @@
  * AD9851 datasheet at http://www.analog.com/static/imported-files/data_sheets/AD9851.pdf
  *
  *******************************************************************************************/
+ 
+#ifndef AD985XSPI_H
+#define AD985XSPI_H
+#include <Arduino.h>
+
+class AD985XSPI
+{
+	public:
+		AD985XSPI(uint8_t ddsType);
+
+		void begin(int w_clk_pin, int fq_ud_pin, int reset_pin);
+		void calibrate(double trimFreq);
+		void setfreq(double freq);
+		void down();
+		void up();
+	
+	private:
+		uint8_t DDS_TYPE;
+		
+		int W_CLK;
+		int FQ_UD;
+		int RESET;
+
+		uint32_t deltaphase;
+		uint8_t phase;
+		double calibFreq;
+		long SPIRate;
+
+		void reSet();
+		void update();
+		void pulse(int pin);
+};
+
+extern AD985XSPI DDS;
+
+#endif
