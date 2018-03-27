@@ -11,6 +11,8 @@
  * - Added support for AD9851 (30 MHz oscillator, 180 MHz system clock)
  * - Increased SPI-DDS bus speed to 8MHz (default) (other options are 4MHz and 2MHz)
  *
+ * UNTESTED port to ESP8266 by penfold42 2018_03
+ *
  * This library uses the Serial Peripheral Interface (SPI) 
  * to accelerate the update of the AD985x from 700µs in software serial to:
  * - 90µs (54µs for deltaphase calculation and 36µs for transfer) @ 2MHz SPI bus speed
@@ -18,12 +20,18 @@
  *
  * Use this library freely
  *
- * Hardware connections : 
+ * Hardware connections atmega based: 
  * W_CLK   -> D13 arduino UNO/NANO, D52 MEGA
  * FQ_UD   -> any pin except 10 and 12 UNO/NANO, 50 and 53 MEGA
  * DATA/D7 -> D11 arduino UNO/NANO, D51 MEGA
  * RESET   -> any pin except 10 and 12 UNO/NANO, 50 and 53 MEGA
  *
+ * Hardware connections ESP8266 HWSPI: 
+ * W_CLK   -> GPIO 14
+ * FQ_UD   -> any pin except 15 and 17
+ * DATA/D7 -> GPIO 16
+ * RESET   -> any pin except 15 and 17
+ 
  * Functions :
  * DDS.begin(W_CLK pin, FQ_UD pin, RESET pin); initialize the output pins and master reset AD985x
  * DDS.calibrate(trimFreq); compensation of crystal oscillator frequency
